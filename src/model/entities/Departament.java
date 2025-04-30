@@ -2,12 +2,12 @@ package model.entities;
 
 import java.io.Serializable;
 
-public class Derpartament implements Serializable {
+public class Departament implements Serializable {
     private Integer id;
     private String name;
-    public Derpartament(){
+    public Departament(){
     }
-    public Derpartament(Integer id, String name) {
+    public Departament(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -38,7 +38,7 @@ public class Derpartament implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Derpartament other = (Derpartament) obj;
+        Departament other = (Departament) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
