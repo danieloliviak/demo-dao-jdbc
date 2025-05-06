@@ -42,10 +42,10 @@ public class SellerDaoJDBC implements SellerDao {
         ResultSet rs = null;
         try {
             st = conn.prepareStatement(
-                "select seller. * Departament.nome as DepName"+
-                "from seller inner join Departament"+
-                "on seller.departament_id = Departament.id"+
-                "where seller.id = ?");
+                "SELECT seller.id, seller.nome, seller.email, seller.baseSalary, seller.birth_date, seller.departament_id, Departament.nome as DepName "+
+                "FROM seller INNER JOIN Departament "+
+                "ON seller.departament_id = Departament.id "+
+                "WHERE seller.id = ? ");
             st.setInt(1, id);
             rs = st.executeQuery();
             if(rs.next()){
@@ -83,7 +83,34 @@ public class SellerDaoJDBC implements SellerDao {
 
     @Override
     public List<Seller> findAll() {
-        return null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement(
+                "SELECT seller.id, seller.nome, seller.email, seller.baseSalary, seller.birth_date, seller.departament_id, Departament.nome as DepName "+
+                "FROM seller INNER JOIN Departament "+
+                "ON seller.departament_id = Departament.id "+
+                "ORDER BY seller.nome ");
+            rs = st.executeQuery();
+            List<Seller> list = new ArrayList<>();
+            Map<Integer, Departament> map = new HashMap<>();
+            while(rs.next()){
+                Departament dep = map.get(rs.getInt("departament_id"));
+                if(dep==null){
+                    dep = instantieteDepartament(rs);
+                    map.put(rs.getInt("departament_id"), dep);
+                }
+                Seller obj = instantieteSeller(rs, dep);
+                list.add(obj);
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new DbExeception(e.getMessage());
+        }
+        finally{
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
     }
 
     @Override
@@ -92,11 +119,11 @@ public class SellerDaoJDBC implements SellerDao {
         ResultSet rs = null;
         try {
             st = conn.prepareStatement(
-                "select seller. * Departament.nome as DepName"+
-                "from seller inner join Departament"+
-                "on seller.departament_id = Departament.id"+
-                "where seller.id = ?"+
-                "order by nome");
+                "SELECT seller.id, seller.nome, seller.email, seller.baseSalary, seller.birth_date, seller.departament_id, Departament.nome AS DepName "+
+                "FROM seller INNER JOIN Departament "+
+                "ON seller.departament_id = Departament.id "+
+                "WHERE Departament.id = ? "+
+                "ORDER BY seller.nome ");
             st.setInt(1, departament.getId());
             rs = st.executeQuery();
             List<Seller> list = new ArrayList<>();
