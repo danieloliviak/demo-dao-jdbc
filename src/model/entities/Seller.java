@@ -6,22 +6,21 @@ import java.util.Date;
 public class Seller implements Serializable{
     private Integer id;
     private String name;
-    private String email;
     private Date birthDate;
-    private Double baseSalary;
-    
     private Departament derpartament;
+    private String email;
+    private Double baseSalary;
 
     public Seller() {
     }
 
-    public Seller(Integer id, String name, String email, Date birthDate, Double baseSalary, Departament derpartament) {
+    public Seller(Integer id, String name, Date birthDate, Departament derpartament, String email, Double baseSalary) {
         this.id = id;
         this.name = name;
-        this.email = email;
         this.birthDate = birthDate;
-        this.baseSalary = baseSalary;
         this.derpartament = derpartament;
+        this.email = email;
+        this.baseSalary = baseSalary;
     }
 
     public Integer getId() {
