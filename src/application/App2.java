@@ -33,10 +33,10 @@ public class App2 {
         departamentDao.update(dep);
         System.out.println("Update completed");
 
-        // System.out.println("\n=== test 6: seller delete write a id:");
-        // int id = sc.nextInt();
-        // departamentDao.delete(id);
-        // System.out.println("delete completed");
+        System.out.println("\n=== test 6: department delete write a id:");
+        int id = sc.nextInt();
+        departamentDao.delete(id);
+        System.out.println("delete completed");
 
         sc.close();
     }
