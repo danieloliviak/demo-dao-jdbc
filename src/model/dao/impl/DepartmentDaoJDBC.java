@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import db.DB;
@@ -19,8 +21,28 @@ public class DepartmentDaoJDBC implements DepartamentDao {
 
     @Override
     public void insert(Departament obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement(
+                "INSERT INTO Departament (nome) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+                st.setString(1, obj.getName());
+
+                int rowsAffected = st.executeUpdate();
+                if(rowsAffected>0){
+                    ResultSet rs = st.getGeneratedKeys();
+                    if(rs.next()){
+                        int id = rs.getInt(1);
+                        obj.setId(id);
+                    }
+                    DB.closeResultSet(rs);
+                }else{
+                    throw new DbExeception("Unexpected error! No rows affected!");
+                }
+            } catch (SQLException e) {
+            throw new DbExeception(e.getMessage());
+        }finally{
+            DB.closeStatement(st);
+        }
     }
 
     @Override
@@ -60,8 +82,26 @@ public class DepartmentDaoJDBC implements DepartamentDao {
 
     @Override
     public List<Departament> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement(
+                "SELECT * FROM Departament ORDER BY id ");
+            rs = st.executeQuery();
+            List<Departament> list = new ArrayList<>();
+            Departament dep = null;
+            while(rs.next()){
+                dep = instantieteDepartament(rs);
+                list.add(dep);
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new DbExeception(e.getMessage());
+        }
+        finally{
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
     }
 
     private Departament instantieteDepartament(ResultSet rs) throws SQLException {

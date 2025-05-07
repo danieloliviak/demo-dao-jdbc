@@ -1,12 +1,10 @@
 package application;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 import model.dao.DaoFactory;
 import model.dao.DepartamentDao;
-import model.dao.SellerDao;
 import model.entities.Departament;
 
 public class App2 {
@@ -18,16 +16,19 @@ public class App2 {
         Departament dep = departamentDao.findById(3);
         System.out.println(dep);
 
-        // System.out.println("\n=== test 3: seller findAll");
-        // list = departamentDao.findAll();
-        // for(Departament obj:list){
-        //     System.out.println(obj);
-        // }
+        System.out.println("\n=== test 2: department findAll");
+        List<Departament> list = departamentDao.findAll();
+        for(Departament d : list){
+            System.out.println(d);
+        }
 
-        // System.out.println("\n=== test 4: seller insert");
-        // Departament newSeller = new Departament(null, "greg", new Date(), departament, "greg@gmail.com", 4000.0);
-        // departamentDao.insert(newSeller);
-        // System.out.println("Inserted! New id = "+ newSeller.getId());
+        System.out.println("\n=== test 3: department insert");
+        Departament newDepartament = new Departament(null, "PC");
+        departamentDao.insert(newDepartament);
+        System.out.println("Inserted! New id = "+ newDepartament.getId());
+        for(Departament d : list){
+            System.out.println(d);
+        }
 
         // System.out.println("\n=== test 5: seller update");
         // seller = departamentDao.findById(9);
