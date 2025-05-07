@@ -22,19 +22,16 @@ public class App2 {
             System.out.println(d);
         }
 
-        System.out.println("\n=== test 3: department insert");
-        Departament newDepartament = new Departament(null, "PC");
-        departamentDao.insert(newDepartament);
-        System.out.println("Inserted! New id = "+ newDepartament.getId());
-        for(Departament d : list){
-            System.out.println(d);
-        }
+        // System.out.println("\n=== test 3: department insert");
+        // Departament newDepartament = new Departament(null, "PC");
+        // departamentDao.insert(newDepartament);
+        // System.out.println("Inserted! New id = "+ newDepartament.getId());
 
-        // System.out.println("\n=== test 5: seller update");
-        // seller = departamentDao.findById(9);
-        // seller.setName("Marthe king");
-        // departamentDao.update(seller);
-        // System.out.println("Update completed");
+        System.out.println("\n=== test 4: department update");
+        dep = departamentDao.findById(5);
+        dep.setName("components");
+        departamentDao.update(dep);
+        System.out.println("Update completed");
 
         // System.out.println("\n=== test 6: seller delete write a id:");
         // int id = sc.nextInt();
